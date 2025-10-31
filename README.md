@@ -117,7 +117,7 @@ The application uses environment variables for configuration. You need to create
 Create a `.env` file in the project root directory:
 
 ```bash
-# Location: /Users/fawwazali/Vsprojs/Tedio/.env
+
 
 # MongoDB Configuration
 # Used by Docker Compose for MongoDB container
