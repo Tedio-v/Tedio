@@ -1,0 +1,35 @@
+.qa-page { background: #eef7f4; min-height: 100vh; }
+
+.qa-container { max-width: 1200px; margin: 0 auto; padding: 16px 16px 40px; }
+.qa-title { margin: 0 0 12px 0; font-size: 1.75rem; }
+
+.qa-panel { background: #f4f8f6; border: 1px solid #d9e7e1; border-radius: 12px; padding: 16px; }
+
+.qa-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
+
+.qa-col { background: #ffffff; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; border: 1px solid #e3ece8; }
+/* Keep column backgrounds white so icons sit on white */
+.qa-col--1 { background: #ffffff; }
+.qa-col--2 { background: #ffffff; }
+.qa-col--3 { background: #ffffff; }
+.qa-col--4 { background: #ffffff; }
+
+.qa-col-header { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 6px; }
+.qa-icon { width: 44px; height: 44px; object-fit: contain; background: #ffffff; }
+.qa-col-title { font-weight: 700; line-height: 1.1; text-align: center; }
+
+/* Each quick action button gets the column color */
+.qa-action { display: block; color: #111827; text-decoration: none; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.06); }
+.qa-col--1 .qa-action { background: #D8B8C8; }
+.qa-col--2 .qa-action { background: #F2E5D3; }
+.qa-col--3 .qa-action { background: #B8D4C8; }
+.qa-col--4 .qa-action { background: #A8B8C8; }
+.qa-action + .qa-action { margin-top: 10px; }
+.qa-action:hover { filter: brightness(1.03); }
+
+@media (max-width: 1000px) {
+  .qa-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .qa-grid { grid-template-columns: 1fr; }
+} 

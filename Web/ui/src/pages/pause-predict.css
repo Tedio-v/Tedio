@@ -1,0 +1,30 @@
+.pause-predict { background: #eef7f4; min-height: 100vh; }
+
+.pp-layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; padding: 16px 16px 40px; max-width: 1200px; margin: 0 auto; }
+
+.pp-sidebar { background: #e7f1ed; border: 1px solid #d9e7e1; border-radius: 10px; padding: 16px; }
+.pp-title { margin: 0 0 12px 0; font-size: 1.25rem; }
+.pp-done { display: flex; align-items: center; gap: 8px; background: #f7faf9; border: 1px solid #e5efea; padding: 10px 12px; border-radius: 10px; font-weight: 700; }
+
+.pp-section { margin: 16px 0 10px 0; font-weight: 700; }
+.pp-resource { display: block; border: none; background: #f7faf9; border: 1px solid #e5efea; border-radius: 10px; padding: 0; text-align: left; cursor: pointer; width: 100%; overflow: hidden; }
+.pp-resource + .pp-resource { margin-top: 10px; }
+.pp-resource img { width: 100%; height: auto; object-fit: contain; display: block; }
+.pp-resource span { display: none; }
+
+.pp-content { display: grid; gap: 16px; }
+.pp-card { background: #e7f3ef; border: 1px solid #d9e7e1; border-radius: 10px; padding: 16px; }
+.pp-card h3 { margin: 0 0 8px 0; }
+.pp-steps { margin: 0; padding-left: 18px; }
+.pp-steps li { margin: 4px 0; }
+
+.pp-video { margin-top: 6px; margin-bottom: 8px; text-align: center; }
+.pp-video img { width: 100%; max-width: 460px; border-radius: 10px; border: 1px solid #cfe0da; display: block; margin: 0 auto; }
+
+.pp-after { font-weight: 700; margin-top: 8px; margin-bottom: 8px; }
+.pp-points { margin: 0; padding-left: 18px; }
+.pp-points li { margin: 6px 0; }
+
+@media (max-width: 900px) {
+  .pp-layout { grid-template-columns: 1fr; }
+} 

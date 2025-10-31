@@ -1,0 +1,164 @@
+// ============================================================================
+// TEDIO - MOBILE ENVIRONMENT CONFIGURATION (EXAMPLE)
+// ============================================================================
+//
+// This file contains environment configuration for the Flutter mobile app.
+// Copy this file to environment.dart and adjust values as needed.
+//
+// Location: lib/config/environment.dart
+//
+// ============================================================================
+
+/// Environment configuration for Tedio Mobile App
+class Environment {
+  // ─────────────────────────────────────────────────────────────────────────
+  // Backend API Configuration
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /// Backend API URL
+  ///
+  /// IMPORTANT: Update this based on where you're running the app:
+  ///
+  /// For Android Emulator:
+  ///   - Use: http://10.0.2.2:5001
+  ///   - Reason: 10.0.2.2 is the host machine from Android emulator's perspective
+  ///
+  /// For iOS Simulator:
+  ///   - Use: http://localhost:5001
+  ///   - Reason: iOS simulator shares network with host
+  ///
+  /// For Physical Device (same network):
+  ///   - Use: http://YOUR_LOCAL_IP:5001
+  ///   - Find your IP:
+  ///     * macOS: ipconfig getifaddr en0
+  ///     * Linux: hostname -I | awk '{print $1}'
+  ///     * Windows: ipconfig (look for IPv4 Address)
+  ///   - Example: http://192.168.1.100:5001
+  ///
+  /// For Production:
+  ///   - Use: https://api.yourdomain.com
+  ///   - Make sure to use HTTPS in production
+
+  static const String apiUrl = 'http://localhost:5001';  // Change this!
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // API Endpoints
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /// Base URL for all API calls
+  static const String baseUrl = '$apiUrl/api';
+
+  /// Authentication endpoints
+  static const String authEndpoint = '$baseUrl/auth';
+  static const String loginEndpoint = '$authEndpoint/login';
+  static const String registerEndpoint = '$authEndpoint/register';
+  static const String logoutEndpoint = '$authEndpoint/logout';
+
+  /// User endpoints
+  static const String userEndpoint = '$baseUrl/user';
+  static const String profileEndpoint = '$userEndpoint/profile';
+
+  /// Insights endpoints
+  static const String insightsEndpoint = '$baseUrl/insights';
+
+  /// Quick actions endpoints
+  static const String actionsEndpoint = '$baseUrl/actions';
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // App Configuration
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /// Application name
+  static const String appName = 'Tedio';
+
+  /// Application version (should match pubspec.yaml)
+  static const String appVersion = '1.0.0';
+
+  /// Application build number
+  static const int buildNumber = 1;
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Feature Flags
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /// Enable debug mode (shows extra logging, debug info)
+  static const bool debugMode = true;  // Set to false in production
+
+  /// Enable analytics
+  static const bool analyticsEnabled = false;
+
+  /// Enable crash reporting
+  static const bool crashReportingEnabled = false;
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Timeouts & Limits
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /// API connection timeout in milliseconds
+  static const int connectionTimeout = 30000;  // 30 seconds
+
+  /// API receive timeout in milliseconds
+  static const int receiveTimeout = 30000;  // 30 seconds
+
+  /// Maximum number of retry attempts for failed requests
+  static const int maxRetryAttempts = 3;
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Storage Keys (for SharedPreferences)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  static const String tokenKey = 'auth_token';
+  static const String userIdKey = 'user_id';
+  static const String userEmailKey = 'user_email';
+  static const String userNameKey = 'user_name';
+  static const String onboardingCompletedKey = 'onboarding_completed';
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Helper Methods
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /// Check if running in production mode
+  static bool get isProduction => !debugMode;
+
+  /// Get full URL for a given path
+  static String getFullUrl(String path) {
+    if (path.startsWith('/')) {
+      return '$apiUrl$path';
+    }
+    return '$apiUrl/$path';
+  }
+
+  /// Print environment info (for debugging)
+  static void printEnvironmentInfo() {
+    if (debugMode) {
+      print('='.padRight(60, '='));
+      print('Tedio Environment Configuration');
+      print('='.padRight(60, '='));
+      print('App Name: $appName');
+      print('Version: $appVersion ($buildNumber)');
+      print('API URL: $apiUrl');
+      print('Debug Mode: $debugMode');
+      print('Analytics: $analyticsEnabled');
+      print('Crash Reporting: $crashReportingEnabled');
+      print('='.padRight(60, '='));
+    }
+  }
+}
+
+// ============================================================================
+// Usage Examples
+// ============================================================================
+//
+// Import this file in your app:
+//   import 'package:tedio_app/config/environment.dart';
+//
+// Use in API calls:
+//   final response = await http.post(
+//     Uri.parse(Environment.loginEndpoint),
+//     body: {...},
+//   );
+//
+// Print environment info:
+//   Environment.printEnvironmentInfo();
+//
+// ============================================================================

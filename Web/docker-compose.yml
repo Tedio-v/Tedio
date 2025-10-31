@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: tedio
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - tedio-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tedio-backend
+    restart: unless-stopped
+    environment:
+      - MONGO_URI=mongodb://admin:${MONGO_PASSWORD}@mongodb:27017/tedio?authSource=admin
+      - SECRET_KEY=your-production-secret-key
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - HTTP_PROXY=
+      - HTTPS_PROXY=
+      - http_proxy=
+      - https_proxy=
+      - NO_PROXY=*
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongodb
+    networks:
+      - tedio-network
+    volumes:
+      - ./backend:/app
+      - /app/__pycache__
+
+  frontend:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: tedio-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"  # Changed from "3000:80" to "80:80"
+    depends_on:
+      - backend
+    networks:
+      - tedio-network
+  traefik:
+      image: traefik:v3.0
+      container_name: traefik
+      restart: unless-stopped
+      command:
+        - "--entrypoints.websecure.address=:443"
+        - "--certificatesresolvers.le.acme.tlschallenge=true"
+        - "--certificatesresolvers.le.acme.email=tedio.official@gmail.com"   # <-- put your email
+        - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+        - "--providers.file.directory=/etc/traefik/dynamic"
+        - "--providers.file.watch=true"
+      ports:
+        - "443:443"
+      volumes:
+        - ./letsencrypt:/letsencrypt
+        - ./traefik/dynamic:/etc/traefik/dynamic:ro
+      networks:
+        - tedio-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  tedio-network:
+    driver: bridge

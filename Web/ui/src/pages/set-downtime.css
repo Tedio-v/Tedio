@@ -1,0 +1,28 @@
+.set-downtime { background: #eef7f4; min-height: 100vh; }
+
+.sd-layout { display: grid; grid-template-columns: 300px 1fr; gap: 24px; padding: 16px 16px 40px; max-width: 1200px; margin: 0 auto; }
+
+.sd-sidebar { background: #e7f1ed; border: 1px solid #d9e7e1; border-radius: 10px; padding: 16px; height: fit-content; }
+.sd-title { margin: 0 0 12px 0; font-size: 1.25rem; }
+.sd-done { display: flex; align-items: center; gap: 8px; background: #f7faf9; border: 1px solid #e5efea; padding: 10px 12px; border-radius: 10px; font-weight: 700; }
+
+.sd-section { margin: 16px 0 10px 0; font-weight: 700; }
+.sd-card { display: block; border: none; background: #f7faf9; border: 1px solid #e5efea; border-radius: 10px; padding: 0; text-align: left; cursor: pointer; width: 100%; overflow: hidden; }
+.sd-card + .sd-card { margin-top: 10px; }
+.sd-card--tall img { height: auto !important; }
+.sd-card img { width: 100%; height: auto; object-fit: contain; display: block; }
+.sd-card span { display: none; }
+
+.sd-content { display: grid; gap: 16px; }
+.sd-card-main { background: #e7f3ef; border: 1px solid #d9e7e1; border-radius: 10px; padding: 16px; }
+.sd-card-main h3 { margin: 0 0 8px 0; }
+.sd-steps { margin: 0; padding-left: 18px; }
+.sd-steps li { margin: 4px 0; }
+
+.sd-figure { margin-top: 10px; text-align: center; }
+.sd-figure img { width: 100%; max-width: 680px; border-radius: 10px; border: 1px solid #cfe0da; display: block; margin: 0 auto; }
+.sd-figure figcaption { color: #6b7280; font-size: 0.85rem; margin-top: 6px; }
+
+@media (max-width: 900px) {
+  .sd-layout { grid-template-columns: 1fr; }
+} 

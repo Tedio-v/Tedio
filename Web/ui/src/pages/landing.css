@@ -1,0 +1,69 @@
+.landing {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/new_landing.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.landing__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 1rem;
+  max-width: 960px;
+}
+
+.landing__title {
+  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+  font-size: 2.75rem;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.75rem 0;
+}
+
+.landing__subtitle {
+  font-family: 'Lexend', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+  color: #e5e7eb;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 auto 1.5rem auto;
+  max-width: 720px;
+}
+
+.landing__cta {
+  appearance: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: #34d399;
+  color: #0b1418;
+  font-weight: 700;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.landing__cta:hover {
+  background-color: #22c38a;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 20px -5px rgba(0, 0, 0, 0.25);
+}
+
+.landing__cta:active {
+  transform: translateY(0);
+} 

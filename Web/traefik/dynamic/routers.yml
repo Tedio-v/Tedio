@@ -1,0 +1,44 @@
+http:
+ routers:
+   tedio:
+     rule: "Host(`tedio.online`)"
+     entryPoints: ["websecure"]
+     tls:
+       certResolver: le
+     service: tedio
+   tedio-www:
+     rule: "Host(`www.tedio.online`)"
+     entryPoints: ["websecure"]
+     tls:
+       certResolver: le
+     service: tedio
+     # middlewares: ["to-apex"]  # uncomment if you want www -> apex redirect
+  
+   # API routes
+   tedio-api:
+     rule: "Host(`tedio.online`) && PathPrefix(`/api`)"
+     entryPoints: ["websecure"]
+     tls:
+       certResolver: le
+     service: tedio-api
+     priority: 100
+
+
+ middlewares:
+   to-apex:
+     redirectRegex:
+       regex: "^https://www\\.tedio\\.online(.*)"
+       replacement: "https://tedio.online$1"
+       permanent: true
+
+
+ services:
+   tedio:
+     loadBalancer:
+       servers:
+         - url: "http://tedio-frontend:80"
+  
+   tedio-api:
+     loadBalancer:
+       servers:
+         - url: "http://tedio-backend:5001"
