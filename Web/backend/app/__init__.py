@@ -20,14 +20,32 @@ CORS(app,
      expose_headers=["Content-Type", "Authorization"])
 
 # Initialize MongoDB
-mongo = PyMongo(app)
-db = mongo.db
+mongo_uri = os.getenv('MONGO_URI', 'mongodb://localhost:27017/tedio')
+print(f"[STARTUP] Connecting to MongoDB... URI starts with: {mongo_uri[:30]}...")
+print(f"[STARTUP] MONGO_URI env var set: {bool(os.getenv('MONGO_URI'))}")
+
+try:
+    mongo = PyMongo(app)
+    db = mongo.db
+    if db is None:
+        print("[STARTUP] ERROR: mongo.db is None! Check that your MONGO_URI includes a database name (e.g. /tedio)")
+        print(f"[STARTUP] Current MONGO_URI: {mongo_uri[:50]}...")
+    else:
+        print(f"[STARTUP] Connected to MongoDB database: {db.name}")
+except Exception as e:
+    print(f"[STARTUP] ERROR connecting to MongoDB: {e}")
+    db = None
 
 # Import routes after app initialization to avoid circular imports
 from app.routes import api
 app.register_blueprint(api)
 
 # Ensure indexes for better query performance
-db.users.create_index('email', unique=True)
-db.videos.create_index('user_id')
-db.insights.create_index([('user_id', 1), ('resolved_at', 1)])
+if db is not None:
+    try:
+        db.users.create_index('email', unique=True)
+        db.videos.create_index('user_id')
+        db.insights.create_index([('user_id', 1), ('resolved_at', 1)])
+        print("[STARTUP] MongoDB indexes created successfully")
+    except Exception as e:
+        print(f"[STARTUP] ERROR creating indexes: {e}")
