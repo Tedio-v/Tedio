@@ -3,8 +3,8 @@
 
 import config from '../config/env.js'
 
-// API URL for server deployment via Traefik
-const API_BASE = 'https://tedio.online/api'
+// API URL - uses environment variable for deployment, falls back to config
+const API_BASE = import.meta.env.VITE_API_URL || config.API_ENDPOINT
 
 class AuthService {
   constructor() {

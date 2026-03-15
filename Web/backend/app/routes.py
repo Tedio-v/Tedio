@@ -37,18 +37,17 @@ if not openai_api_key:
 
 insight_service = InsightService(openai_api_key)
 
-# Updated CORS origins to include server IP and domain
+# CORS origins - includes Render deployment and local dev
 CORS_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000', 
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'http://134.199.222.115:3000',  # Added server IP
-    'http://134.199.222.115:5173',  # Added server IP for Vite
-    'http://178.128.74.9:3000',     # Added second server IP
-    'http://178.128.74.9:5173',     # Added second server IP for Vite
-    'https://tedio.online',         # Domain HTTPS
-    'http://tedio.online'           # Domain HTTP
+    origin for origin in [
+        os.environ.get('FRONTEND_URL'),  # Set this to your Render frontend URL
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'https://tedio.online',
+        'http://tedio.online',
+    ] if origin
 ]
 
 # Robust token_required decorator

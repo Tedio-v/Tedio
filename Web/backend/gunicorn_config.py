@@ -1,8 +1,8 @@
 # Gunicorn configuration file
 import os
 
-# Server socket
-bind = "0.0.0.0:5001"
+# Server socket - use PORT env var for Render, default to 5001
+bind = f"0.0.0.0:{os.environ.get('PORT', '5001')}"
 backlog = 2048
 
 # Worker processes
@@ -17,8 +17,8 @@ max_requests = 1000
 max_requests_jitter = 50
 
 # Logging
-accesslog = "access.log"
-errorlog = "error.log"
+accesslog = "-"
+errorlog = "-"
 loglevel = "info"
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
 
