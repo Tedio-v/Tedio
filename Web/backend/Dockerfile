@@ -8,14 +8,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
-COPY requirements.txt .
+COPY Web/backend/requirements.txt .
 
 # Install Python dependencies with specific versions
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # Copy application code (excluding __pycache__ and other unnecessary files)
-COPY . .
+COPY Web/backend/ .
 
 # Remove any __pycache__ directories that might have been copied
 RUN find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
