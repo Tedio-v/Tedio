@@ -20,7 +20,7 @@ http {\n\
     default_type application/octet-stream;\n\
 \n\
     server {\n\
-        listen 80;\n\
+        listen ${PORT};\n\
         server_name localhost;\n\
 \n\
         location / {\n\
@@ -37,8 +37,6 @@ http {\n\
             proxy_set_header X-Forwarded-Proto $scheme;\n\
         }\n\
     }\n\
-}\n' > /etc/nginx/nginx.conf
+}\n' > /etc/nginx/nginx.conf.template
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"]
