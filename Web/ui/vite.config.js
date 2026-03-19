@@ -14,13 +14,13 @@ export default defineConfig(({ mode }) => {
         '.ngrok-free.app',
         '.ngrok.app'
       ],
-      // Proxy /api to local backend in development
+      // Proxy /api to backend in development
       ...(mode === 'development' && {
         proxy: {
           '/api': {
-            target: 'http://localhost:5001',
+            target: 'https://backend-production-d9757.up.railway.app',
             changeOrigin: true,
-            secure: false,
+            secure: true,
           },
         },
       }),
