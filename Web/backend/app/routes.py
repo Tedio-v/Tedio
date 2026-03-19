@@ -40,13 +40,16 @@ insight_service = InsightService(openai_api_key)
 # CORS origins - includes Render deployment and local dev
 CORS_ORIGINS = [
     origin for origin in [
-        os.environ.get('FRONTEND_URL'),  # Set this to your Render frontend URL
+        os.environ.get('FRONTEND_URL'),
         'http://localhost:3000',
         'http://127.0.0.1:3000',
         'http://localhost:5173',
         'http://127.0.0.1:5173',
+        'http://localhost:5175',
+        'http://127.0.0.1:5175',
         'https://tedio.online',
         'http://tedio.online',
+        'https://frontend-production-6257.up.railway.app',
     ] if origin
 ]
 
@@ -157,7 +160,7 @@ def complete_onboarding(current_user):
 @token_required
 def check_youtube_history(current_user):
     try:
-        has_data = mongo_service.has_youtube_history(current_user['_id'])
+        has_data = mongo_service.has_youtube_history(current_user['user_id'])
         return jsonify({'has_data': has_data}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -190,7 +193,7 @@ def upload_youtube_history(current_user):
 @token_required
 def get_youtube_history(current_user):
     try:
-        history = mongo_service.get_youtube_history(current_user['_id'])
+        history = mongo_service.get_youtube_history(current_user['user_id'])
         return jsonify(history), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500

@@ -3,8 +3,7 @@
 
 import config from '../config/env.js'
 
-// API URL - uses environment variable for deployment, falls back to config
-const API_BASE = import.meta.env.VITE_API_URL || config.API_ENDPOINT
+const API_BASE = config.API_ENDPOINT
 
 class AuthService {
   constructor() {
@@ -19,12 +18,12 @@ class AuthService {
       },
       body: JSON.stringify(userData),
     })
-    
+
     if (!response.ok) {
-      const error = await response.json()
+      const error = await response.json().catch(() => ({}))
       throw new Error(error.error || 'Registration failed')
     }
-    
+
     return response.json()
   }
 
@@ -36,17 +35,17 @@ class AuthService {
       },
       body: JSON.stringify({ email, password }),
     })
-    
+
     if (!response.ok) {
-      const error = await response.json()
+      const error = await response.json().catch(() => ({}))
       throw new Error(error.error || 'Login failed')
     }
-    
+
     const data = await response.json()
     this.token = data.token
     localStorage.setItem('token', data.token)
     localStorage.setItem('user', JSON.stringify(data.user))
-    
+
     return data
   }
 

@@ -13,8 +13,7 @@ export default function Settings() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // API URL for server deployment via Traefik
-  const API_BASE = 'https://tedio.online/api'
+  const API_BASE = config.API_ENDPOINT
 
   // Load current user settings on component mount
   useEffect(() => {

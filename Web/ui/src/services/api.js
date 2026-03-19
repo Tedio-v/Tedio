@@ -4,8 +4,7 @@
 import { authService } from './auth.js'
 import config from '../config/env.js'
 
-// API URL - uses environment variable for deployment, falls back to config
-const API_BASE = import.meta.env.VITE_API_URL || config.API_ENDPOINT
+const API_BASE = config.API_ENDPOINT
 
 class ApiService {
   async makeAuthenticatedRequest(url, options = {}) {
