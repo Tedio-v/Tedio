@@ -124,6 +124,24 @@ class ApiService {
   async getCompletedActions() {
     return this.makeAuthenticatedRequest(`${API_BASE}/quick-actions/completed`)
   }
+  // Channel Quality API
+  async getChannelQuality() {
+    return this.makeAuthenticatedRequest(`${API_BASE}/channel-quality`)
+  }
+
+  async overrideChannelQuality(channelName, tier) {
+    return this.makeAuthenticatedRequest(
+      `${API_BASE}/channel-quality/${encodeURIComponent(channelName)}/override`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({ tier }),
+      }
+    )
+  }
+
+  async getCheatSheet() {
+    return this.makeAuthenticatedRequest(`${API_BASE}/cheat-sheet`)
+  }
 }
 
 export const apiService = new ApiService()

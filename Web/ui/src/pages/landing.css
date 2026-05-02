@@ -27,19 +27,21 @@
 }
 
 .landing__title {
-  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+  font-family: var(--font-heading);
   font-size: 2.75rem;
-  line-height: 1.1;
+  line-height: var(--lh-heading);
+  letter-spacing: var(--kerning-heading);
   font-weight: 700;
   color: #ffffff;
   margin: 0 0 0.75rem 0;
 }
 
 .landing__subtitle {
-  font-family: 'Lexend', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+  font-family: var(--font-body);
+  letter-spacing: var(--kerning-body);
   color: #e5e7eb;
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: var(--lh-body);
   margin: 0 auto 1.5rem auto;
   max-width: 720px;
 }
@@ -49,9 +51,10 @@
   border: none;
   outline: none;
   cursor: pointer;
-  background-color: #34d399;
-  color: #0b1418;
-  font-weight: 700;
+  background-color: var(--melon);
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-weight: 600;
   padding: 0.75rem 1.25rem;
   border-radius: 9999px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
@@ -59,11 +62,11 @@
 }
 
 .landing__cta:hover {
-  background-color: #22c38a;
+  background-color: var(--melon-ripe);
   transform: translateY(-1px);
   box-shadow: 0 14px 20px -5px rgba(0, 0, 0, 0.25);
 }
 
 .landing__cta:active {
   transform: translateY(0);
-} 
+}

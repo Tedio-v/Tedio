@@ -618,7 +618,7 @@ def process_youtube_history(watch_history):
     # Extract total watch minutes for frontend summary
     total_watch_minutes = final_metrics.get('total_watch_minutes', 0)
     
-    return insights, total_watch_minutes
+    return insights, total_watch_minutes, rows
 
 # ---------- Flask route ------------------------------------------------------
 @app.route("/insights", methods=["POST"])
@@ -629,5 +629,5 @@ def insights():
     Response: list of insight objects.
     """
     items = request.get_json(force=True)
-    insights, total_watch_minutes = process_youtube_history(items)
+    insights, total_watch_minutes, _rows = process_youtube_history(items)
     return jsonify(insights)

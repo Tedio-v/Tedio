@@ -1,35 +1,143 @@
-.qa-page { background: #eef7f4; min-height: 100vh; }
-
-.qa-container { max-width: 1200px; margin: 0 auto; padding: 16px 16px 40px; }
-.qa-title { margin: 0 0 12px 0; font-size: 1.75rem; }
-
-.qa-panel { background: #f4f8f6; border: 1px solid #d9e7e1; border-radius: 12px; padding: 16px; }
-
-.qa-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
-
-.qa-col { background: #ffffff; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; border: 1px solid #e3ece8; }
-/* Keep column backgrounds white so icons sit on white */
-.qa-col--1 { background: #ffffff; }
-.qa-col--2 { background: #ffffff; }
-.qa-col--3 { background: #ffffff; }
-.qa-col--4 { background: #ffffff; }
-
-.qa-col-header { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 6px; }
-.qa-icon { width: 44px; height: 44px; object-fit: contain; background: #ffffff; }
-.qa-col-title { font-weight: 700; line-height: 1.1; text-align: center; }
-
-/* Each quick action button gets the column color */
-.qa-action { display: block; color: #111827; text-decoration: none; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.06); }
-.qa-col--1 .qa-action { background: #D8B8C8; }
-.qa-col--2 .qa-action { background: #F2E5D3; }
-.qa-col--3 .qa-action { background: #B8D4C8; }
-.qa-col--4 .qa-action { background: #A8B8C8; }
-.qa-action + .qa-action { margin-top: 10px; }
-.qa-action:hover { filter: brightness(1.03); }
-
-@media (max-width: 1000px) {
-  .qa-grid { grid-template-columns: 1fr 1fr; }
+.qa-page {
+  background: var(--bg);
+  min-height: 100vh;
 }
-@media (max-width: 640px) {
-  .qa-grid { grid-template-columns: 1fr; }
-} 
+
+.qa-container {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vh, 40px) clamp(16px, 4vw, 24px) clamp(40px, 8vh, 80px);
+}
+
+/* ── Section headers ── */
+.qa-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.qa-section-header--habits {
+  margin-top: 48px;
+}
+
+.qa-section-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(28px, 6vw, 36px);
+  letter-spacing: var(--kerning-heading);
+  line-height: 1;
+  color: var(--text);
+  margin: 0;
+}
+
+.qa-section-time {
+  color: var(--elephant);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.qa-section-desc {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: var(--lh-body);
+  margin: 0 0 8px;
+}
+
+.qa-divider {
+  border: none;
+  border-top: 1px solid var(--linen);
+  margin: 0 0 20px;
+}
+
+/* ── Card list ── */
+.qa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Action cards ── */
+.qa-card {
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  position: relative;
+}
+
+.qa-card-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(20px, 4vw, 24px);
+  letter-spacing: var(--kerning-heading);
+  line-height: 1.1;
+  color: var(--coal);
+  margin: 0 0 6px;
+}
+
+.qa-card-subtitle {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--coal);
+  margin: 0 0 6px;
+}
+
+.qa-card-desc {
+  color: var(--coal);
+  opacity: 0.75;
+  font-size: 14px;
+  line-height: var(--lh-body);
+  margin: 0 0 16px;
+}
+
+.qa-card-cta {
+  display: block;
+  text-align: center;
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: var(--coal);
+  color: var(--concrete);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: opacity 180ms ease;
+}
+.qa-card-cta:hover {
+  opacity: 0.9;
+}
+
+/* Tags row at bottom of quick-fix cards */
+.qa-card-tags {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  gap: 8px;
+}
+
+.qa-card-helps {
+  font-size: 12px;
+  color: var(--coal);
+  opacity: 0.6;
+  line-height: 1.3;
+}
+
+.qa-card-dots {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.qa-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: block;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .qa-card {
+    padding: 20px 18px;
+  }
+}

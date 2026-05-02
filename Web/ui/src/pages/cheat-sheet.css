@@ -1,0 +1,213 @@
+/* Caregiver Cheat Sheet — screen + print styles */
+
+.cs-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.cs-main {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vh, 40px) clamp(16px, 4vw, 24px) clamp(40px, 8vh, 80px);
+}
+
+.cs-loading, .cs-error {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+.cs-error { color: var(--severity-high); }
+
+/* ── Header ── */
+.cs-header {
+  margin-bottom: 32px;
+}
+
+.cs-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(28px, 5vw, 36px);
+  letter-spacing: var(--kerning-heading);
+  line-height: 1;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+
+.cs-child-name {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Sections ── */
+.cs-section {
+  margin-bottom: 28px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.cs-section-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: var(--kerning-heading);
+  color: var(--text);
+  margin: 0 0 6px;
+}
+
+.cs-section-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 14px;
+  line-height: var(--lh-body);
+}
+
+/* ── Channel lists ── */
+.cs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cs-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--linen);
+  font-size: 14px;
+}
+.cs-item:last-child { border-bottom: none; }
+
+.cs-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.cs-dot-educational { background: var(--tier-educational); }
+.cs-dot-neutral { background: var(--tier-neutral); }
+.cs-dot-junk { background: var(--tier-junk); }
+
+.cs-item-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.cs-item-tier {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: capitalize;
+}
+
+.cs-item-reason {
+  font-size: 12px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  max-width: 40%;
+  text-align: right;
+}
+
+/* ── Rules ── */
+.cs-rules-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.cs-rule {
+  font-size: 14px;
+  line-height: var(--lh-body);
+  padding: 4px 0;
+  color: var(--text);
+}
+
+/* ── Actions ── */
+.cs-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.cs-print-btn {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: none;
+  background: var(--navy);
+  color: var(--concrete);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: opacity 180ms ease;
+}
+.cs-print-btn:hover { opacity: 0.9; }
+
+.cs-back-link {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.cs-back-link:hover { text-decoration: underline; }
+
+/* ── Footer ── */
+.cs-footer {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ── Print styles ── */
+@media print {
+  .no-print,
+  nav,
+  .summary-nav,
+  .cs-actions {
+    display: none !important;
+  }
+
+  .cs-page {
+    background: white;
+    min-height: auto;
+  }
+
+  .cs-main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: white;
+  }
+
+  .cs-section {
+    page-break-inside: avoid;
+    background: none;
+    border: 1px solid #ddd;
+    padding: 16px;
+  }
+
+  .cs-title {
+    font-size: 24pt;
+    color: #000;
+  }
+
+  .cs-dot-educational { background: #3a7d44; }
+  .cs-dot-neutral { background: #71706B; }
+  .cs-dot-junk { background: #c4453c; }
+
+  .cs-footer {
+    margin-top: 24px;
+    font-size: 10pt;
+    color: #666;
+  }
+}

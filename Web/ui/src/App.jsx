@@ -20,6 +20,7 @@ import TimeTogether from './pages/TimeTogether.jsx'
 import RemoveDevices from './pages/RemoveDevices.jsx'
 import QuickActions from './pages/QuickActions.jsx'
 import Settings from './pages/Settings.jsx'
+import CheatSheet from './pages/CheatSheet.jsx'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated())
@@ -55,7 +56,7 @@ function App() {
     }
   }
 
-  const publicPaths = new Set(['/pause-predict', '/build-watchlist', '/set-timer', '/physical-timer', '/set-downtime', '/remove-shorts', '/waiting-time-kit', '/block-channel', '/time-together', '/remove-devices', '/quick-actions', '/settings'])
+  const publicPaths = new Set(['/pause-predict', '/build-watchlist', '/set-timer', '/physical-timer', '/set-downtime', '/remove-shorts', '/waiting-time-kit', '/block-channel', '/time-together', '/remove-devices', '/quick-actions', '/settings', '/cheat-sheet'])
   const isPublicPath = typeof window !== 'undefined' && publicPaths.has(window.location?.pathname)
 
   if (!isAuthenticated && !isPublicPath) {
@@ -84,6 +85,7 @@ function App() {
           <Route path="/remove-devices" element={<RemoveDevices />} />
           <Route path="/quick-actions" element={<QuickActions />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/cheat-sheet" element={<CheatSheet />} />
           <Route path="/insight/:id" element={<InsightDetail />} />
           <Route path="*" element={<Navigate to={getHomeRedirect()} replace />} />
         </Routes>

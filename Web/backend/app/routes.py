@@ -18,6 +18,8 @@ from werkzeug.security import check_password_hash
 import functools
 import traceback
 from .llm import call_llm, build_metrics, _preprocess, process_youtube_history
+from .channel_quality import get_channel_quality_summary
+from .channel_seed import normalize_channel_name
 import json
 
 # Load environment variables
@@ -553,9 +555,50 @@ def generate_insights(current_user):
         
         # Stage 1: Preprocess and classify videos
         # Stage 2: Generate behavioral insights
-        insights, total_watch_minutes = process_youtube_history(watch_history)
+        insights, total_watch_minutes, preprocessed_rows = process_youtube_history(watch_history)
         print('LLM insights generated:', insights)
         print('Total watch minutes:', total_watch_minutes)
+
+        # Stage 3: Channel quality analysis (runs alongside insights)
+        try:
+            channel_quality = get_channel_quality_summary(preprocessed_rows, mongo_service.db)
+            user_id_cq = current_user['user_id']
+            # Apply per-user overrides
+            override_col = mongo_service.db.channel_quality_overrides
+            for ch in channel_quality.get('channels', []):
+                norm = normalize_channel_name(ch['name'])
+                override = override_col.find_one({'user_id': user_id_cq, 'normalized_name': norm})
+                if override:
+                    ch['tier'] = override['tier']
+                    ch['source'] = 'override'
+            # Recalculate summary after overrides
+            total_min = sum(c.get('minutes', 0) for c in channel_quality.get('channels', []))
+            tier_min = {'educational': 0, 'neutral': 0, 'junk': 0}
+            for c in channel_quality.get('channels', []):
+                tier_min[c.get('tier', 'neutral')] += c.get('minutes', 0)
+            good_min = tier_min['educational'] + tier_min['neutral']
+            channel_quality['summary'] = {
+                'educational_pct': round(tier_min['educational'] / total_min * 100, 1) if total_min else 0,
+                'neutral_pct': round(tier_min['neutral'] / total_min * 100, 1) if total_min else 0,
+                'junk_pct': round(tier_min['junk'] / total_min * 100, 1) if total_min else 0,
+                'total_minutes': round(total_min, 1),
+                'good_minutes': round(good_min, 1),
+            }
+            # Upsert into channel_quality collection
+            mongo_service.db.channel_quality.update_one(
+                {'user_id': user_id_cq},
+                {'$set': {
+                    'user_id': user_id_cq,
+                    'channels': channel_quality['channels'],
+                    'summary': channel_quality['summary'],
+                    'updated_at': datetime.utcnow(),
+                }},
+                upsert=True,
+            )
+            print(f'Channel quality saved: {channel_quality["summary"]}')
+        except Exception as cq_err:
+            print(f'Channel quality analysis failed (non-fatal): {cq_err}')
+            traceback.print_exc()
         
         if not insights:
             print('No insights generated - likely no kids content found')
@@ -773,4 +816,138 @@ def get_completed_actions(current_user):
         
     except Exception as e:
         print(f'Error getting completed actions: {str(e)}')
+        return jsonify({'error': str(e)}), 500
+
+# ── Channel Quality Routes ──
+
+@api.route('/api/channel-quality', methods=['GET'])
+@cross_origin(origins=CORS_ORIGINS)
+@token_required
+def get_channel_quality(current_user):
+    """Return the user's channel quality breakdown."""
+    try:
+        user_id = current_user['user_id']
+        doc = mongo_service.db.channel_quality.find_one({'user_id': user_id})
+        if not doc:
+            return jsonify({'channels': [], 'summary': {
+                'educational_pct': 0, 'neutral_pct': 0, 'junk_pct': 0,
+                'total_minutes': 0, 'good_minutes': 0,
+            }}), 200
+
+        # Apply per-user overrides on read
+        override_col = mongo_service.db.channel_quality_overrides
+        channels = doc.get('channels', [])
+        for ch in channels:
+            norm = normalize_channel_name(ch.get('name', ''))
+            override = override_col.find_one({'user_id': user_id, 'normalized_name': norm})
+            if override:
+                ch['tier'] = override['tier']
+                ch['source'] = 'override'
+
+        # Recalculate summary with overrides applied
+        total_min = sum(c.get('minutes', 0) for c in channels)
+        tier_min = {'educational': 0, 'neutral': 0, 'junk': 0}
+        for c in channels:
+            tier_min[c.get('tier', 'neutral')] += c.get('minutes', 0)
+        good_min = tier_min['educational'] + tier_min['neutral']
+
+        summary = {
+            'educational_pct': round(tier_min['educational'] / total_min * 100, 1) if total_min else 0,
+            'neutral_pct': round(tier_min['neutral'] / total_min * 100, 1) if total_min else 0,
+            'junk_pct': round(tier_min['junk'] / total_min * 100, 1) if total_min else 0,
+            'total_minutes': round(total_min, 1),
+            'good_minutes': round(good_min, 1),
+        }
+
+        return jsonify({'channels': channels, 'summary': summary}), 200
+    except Exception as e:
+        print(f'Error getting channel quality: {str(e)}')
+        return jsonify({'error': str(e)}), 500
+
+
+@api.route('/api/channel-quality/<channel_name>/override', methods=['PUT'])
+@cross_origin(origins=CORS_ORIGINS)
+@token_required
+def override_channel_quality(channel_name, current_user):
+    """Parent overrides a channel's tier classification."""
+    try:
+        data = request.get_json()
+        tier = data.get('tier')
+        if tier not in ('educational', 'neutral', 'junk'):
+            return jsonify({'error': 'tier must be educational, neutral, or junk'}), 400
+
+        user_id = current_user['user_id']
+        norm = normalize_channel_name(channel_name)
+
+        mongo_service.db.channel_quality_overrides.update_one(
+            {'user_id': user_id, 'normalized_name': norm},
+            {'$set': {
+                'user_id': user_id,
+                'channel_name': channel_name,
+                'normalized_name': norm,
+                'tier': tier,
+                'updated_at': datetime.utcnow(),
+            }},
+            upsert=True,
+        )
+        return jsonify({'message': f'{channel_name} set to {tier}'}), 200
+    except Exception as e:
+        print(f'Error overriding channel quality: {str(e)}')
+        return jsonify({'error': str(e)}), 500
+
+
+@api.route('/api/cheat-sheet', methods=['GET'])
+@cross_origin(origins=CORS_ORIGINS)
+@token_required
+def get_cheat_sheet(current_user):
+    """Return structured data for the printable caregiver cheat sheet."""
+    try:
+        user_id = current_user['user_id']
+        user = mongo_service.db.users.find_one({'_id': ObjectId(user_id)})
+        child_name = user.get('child_name', 'your child') if user else 'your child'
+        child_age = user.get('child_age', '') if user else ''
+
+        doc = mongo_service.db.channel_quality.find_one({'user_id': user_id})
+        if not doc:
+            return jsonify({
+                'child_name': child_name,
+                'child_age': child_age,
+                'approved_channels': [],
+                'avoid_channels': [],
+                'viewing_rules': [],
+            }), 200
+
+        # Apply overrides
+        override_col = mongo_service.db.channel_quality_overrides
+        channels = doc.get('channels', [])
+        for ch in channels:
+            norm = normalize_channel_name(ch.get('name', ''))
+            override = override_col.find_one({'user_id': user_id, 'normalized_name': norm})
+            if override:
+                ch['tier'] = override['tier']
+
+        approved = [c for c in channels if c.get('tier') in ('educational', 'neutral')]
+        avoid = [c for c in channels if c.get('tier') == 'junk']
+
+        # Sort by minutes descending
+        approved.sort(key=lambda c: c.get('minutes', 0), reverse=True)
+        avoid.sort(key=lambda c: c.get('minutes', 0), reverse=True)
+
+        viewing_rules = [
+            'Set a daily screen time limit and stick to it.',
+            'Watch together when possible — ask questions about what you see.',
+            'Avoid screens 1 hour before bedtime.',
+            'Use YouTube Kids or a supervised profile instead of open YouTube.',
+            'Praise your child when they choose quality content on their own.',
+        ]
+
+        return jsonify({
+            'child_name': child_name,
+            'child_age': child_age,
+            'approved_channels': approved[:15],
+            'avoid_channels': avoid[:10],
+            'viewing_rules': viewing_rules,
+        }), 200
+    except Exception as e:
+        print(f'Error getting cheat sheet: {str(e)}')
         return jsonify({'error': str(e)}), 500

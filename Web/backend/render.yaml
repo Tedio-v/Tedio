@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: tedio-backend
+    runtime: python
+    rootDir: Web/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --config gunicorn_config.py wsgi:app
+    plan: free
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: JWT_SECRET_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false

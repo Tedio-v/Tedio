@@ -5,7 +5,7 @@ import { authService } from '../services/auth.js'
 import './summary.css'
 
 function SeverityBadge({ level }) {
-  const color = level === 'high' ? '#dc2626' : level === 'moderate' ? '#d97706' : '#16a34a'
+  const color = level === 'high' ? 'var(--severity-high)' : level === 'moderate' ? 'var(--severity-moderate)' : 'var(--severity-low)'
   return (
     <span className="badge" style={{ borderColor: 'rgba(0,0,0,0.08)', color }}>{level}</span>
   )
@@ -17,7 +17,7 @@ function SparkBar({ values = [] }) {
   return (
     <div style={{ display: 'flex', gap: 6, alignItems: 'flex-end', height: 48 }}>
       {values.map((v, idx) => (
-        <div key={idx} style={{ width: 14, height: Math.max(6, (v / (max || 1)) * 48), background: '#c7d2fe', borderRadius: 3 }} />
+        <div key={idx} style={{ width: 14, height: Math.max(6, (v / (max || 1)) * 48), background: 'var(--melon)', borderRadius: 3 }} />
       ))}
     </div>
   )
@@ -106,7 +106,7 @@ function WeeklyPattern({ values = [] }) {
       
       {/* Line Chart */}
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-        <svg width={width} height={height} style={{ background: '#f8fafc', borderRadius: 8 }}>
+        <svg width={width} height={height} style={{ background: 'var(--sandstone)', borderRadius: 8 }}>
           {/* Grid lines */}
           {[0, 25, 50, 75, 100].map(pct => {
             const y = padding + chartHeight - (pct / maxPercentage) * chartHeight
@@ -117,7 +117,7 @@ function WeeklyPattern({ values = [] }) {
                 y1={y} 
                 x2={width - padding} 
                 y2={y} 
-                stroke="#e2e8f0" 
+                stroke="var(--linen)" 
                 strokeWidth="1"
               />
             )
@@ -127,7 +127,7 @@ function WeeklyPattern({ values = [] }) {
           <path 
             d={pathData} 
             fill="none" 
-            stroke="#3b82f6" 
+            stroke="var(--navy)" 
             strokeWidth="3" 
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -140,7 +140,7 @@ function WeeklyPattern({ values = [] }) {
                 cx={point.x} 
                 cy={point.y} 
                 r="4" 
-                fill="#3b82f6" 
+                fill="var(--navy)" 
                 stroke="#fff" 
                 strokeWidth="2"
               />
@@ -150,7 +150,7 @@ function WeeklyPattern({ values = [] }) {
                 y={height - 10} 
                 textAnchor="middle" 
                 fontSize="11" 
-                fill="#64748b"
+                fill="var(--elephant)"
               >
                 {days[i]}
               </text>
@@ -160,7 +160,7 @@ function WeeklyPattern({ values = [] }) {
                 y={point.y - 10} 
                 textAnchor="middle" 
                 fontSize="10" 
-                fill="#0f172a"
+                fill="var(--coal)"
                 fontWeight="600"
               >
                 {point.pct}%
@@ -175,18 +175,18 @@ function WeeklyPattern({ values = [] }) {
         {insights.map((insight, i) => (
           <div key={i} style={{ 
             fontSize: 13, 
-            color: '#475569', 
+            color: 'var(--text-secondary)', 
             padding: '8px 12px', 
-            background: '#f1f5f9', 
+            background: 'var(--sandstone)',
             borderRadius: 6,
-            borderLeft: '3px solid #3b82f6'
+            borderLeft: '3px solid var(--navy)'
           }}>
             {insight}
           </div>
         ))}
       </div>
       
-      <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 8, textAlign: 'center' }}>
+      <div style={{ fontSize: 11, color: 'var(--elephant)', marginTop: 8, textAlign: 'center' }}>
         Total: {totalMinutes} minutes across the week
       </div>
     </section>
@@ -310,32 +310,29 @@ export default function Relevancy() {
       <h1 className="summary-title" style={{ marginBottom: 8 }}>Relevancy Overview</h1>
 
       <section className="summary-callout" style={{
-        background: 'linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%)',
-        border: '2px solid #3b82f6',
+        background: 'var(--melon)',
+        border: 'none',
         padding: '2rem'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔒</div>
-          <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem', fontWeight: 'bold' }}>
+          <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--navy)' }}>
             Upload YouTube History to Access Relevancy Analysis
           </h2>
-          <p style={{ marginBottom: '1.5rem', color: '#1e40af' }}>
+          <p style={{ marginBottom: '1.5rem', color: 'var(--navy)', opacity: 0.85 }}>
             Relevancy insights require your child's YouTube watch history to analyze viewing patterns and behavioral metrics.
           </p>
           <a
             href="/onboarding"
             style={{
               display: 'inline-block',
-              backgroundColor: '#2563eb',
-              color: 'white',
+              backgroundColor: 'var(--navy)',
+              color: 'var(--concrete)',
               padding: '0.75rem 1.5rem',
-              borderRadius: '0.5rem',
+              borderRadius: 'var(--radius-sm)',
               textDecoration: 'none',
-              fontWeight: 'bold',
+              fontWeight: '600',
               fontSize: '1rem'
             }}
-            onMouseOver={(e) => e.target.style.backgroundColor = '#1d4ed8'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#2563eb'}
           >
             Upload YouTube History
           </a>
@@ -381,17 +378,17 @@ export default function Relevancy() {
                   <strong>{insight.name}</strong>
                   <SeverityBadge level={insight.severity} />
                 </div>
-                <div style={{ color: '#475569', fontSize: 14, marginBottom: 8 }}>{insight.message}</div>
-                <div style={{ color: '#64748b', fontSize: 13, lineHeight: 1.4 }}>
+                <div style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 8 }}>{insight.message}</div>
+                <div style={{ color: 'var(--text-secondary)', fontSize: 13, lineHeight: 1.4 }}>
                   {getInsightDescription(insight.name, insight.matchScore || insight.score_pct || 0)}
                 </div>
-                <div style={{ color: '#94a3b8', fontSize: 12, marginTop: 6 }}>
+                <div style={{ color: 'var(--elephant)', fontSize: 12, marginTop: 6 }}>
                   {getInsightContext(insight.name)}
                 </div>
               </div>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontWeight: 700 }}>{Math.min(100, Math.max(0, Math.round(insight.matchScore || 0)))}%</div>
-                <div style={{ fontSize: 11, color: '#475569', lineHeight: 1.2 }}>behavior<br/>detected</div>
+                <div style={{ fontSize: 11, color: 'var(--text-secondary)', lineHeight: 1.2 }}>behavior<br/>detected</div>
               </div>
             </div>
           ))}

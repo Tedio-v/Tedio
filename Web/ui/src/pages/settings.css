@@ -1,19 +1,19 @@
-.settings { background: #EDF2F0; min-height: 100vh; }
+.settings { background: var(--bg); min-height: 100vh; }
 
 .settings-main { max-width: 800px; margin: 0 auto; padding: 20px 16px 60px; }
 
-.btn-back { background: #e2e8f0; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 8px; padding: 8px 16px; font-weight: 700; margin: 10px 0 16px; }
+.btn-back { background: var(--sandstone); border: 1px solid var(--linen); color: var(--text); border-radius: var(--radius-sm); padding: 8px 16px; font-weight: 600; margin: 10px 0 16px; }
 
-.settings-title { font-family: 'Lexend', system-ui, sans-serif; font-size: 28px; font-weight: 700; margin: 10px 0 18px; }
+.settings-title { font-family: var(--font-heading); font-size: 28px; font-weight: 700; letter-spacing: var(--kerning-heading); margin: 10px 0 18px; }
 
 .setting-group { margin: 18px 0 26px; }
-.setting-label { font-weight: 700; color: #0f172a; }
-.setting-value { color: #64748b; margin-bottom: 6px; }
+.setting-label { font-weight: 600; color: var(--text); }
+.setting-value { color: var(--text-secondary); margin-bottom: 6px; }
 
 .setting-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; max-width: 560px; }
-.setting-input { height: 38px; border-radius: 8px; border: 1px solid #cbd5e1; padding: 0 12px; background: #f8fafc; }
+.setting-input { height: 38px; border-radius: var(--radius-sm); border: 1px solid var(--linen); padding: 0 12px; background: var(--surface); font-family: var(--font-body); }
 
-.btn-update { background: #e2e8f0; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 8px; padding: 8px 14px; font-weight: 700; }
+.btn-update { background: var(--sandstone); border: 1px solid var(--linen); color: var(--text); border-radius: var(--radius-sm); padding: 8px 14px; font-weight: 600; }
 
 .setting-actions { margin-top: 24px; }
-.btn-logout { background: #e2e8f0; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 8px; padding: 10px 18px; font-weight: 700; } 
+.btn-logout { background: var(--sandstone); border: 1px solid var(--linen); color: var(--text); border-radius: var(--radius-sm); padding: 10px 18px; font-weight: 600; }

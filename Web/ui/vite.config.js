@@ -18,9 +18,9 @@ export default defineConfig(({ mode }) => {
       ...(mode === 'development' && {
         proxy: {
           '/api': {
-            target: 'https://backend-production-d9757.up.railway.app',
+            target: 'http://localhost:5001',
             changeOrigin: true,
-            secure: true,
+            secure: false,
           },
         },
       }),

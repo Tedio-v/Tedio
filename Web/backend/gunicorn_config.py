@@ -6,7 +6,7 @@ bind = f"0.0.0.0:{os.environ.get('PORT', '5001')}"
 backlog = 2048
 
 # Worker processes
-workers = 4  # 2 * CPU cores + 1
+workers = 2  # Keep low for free tier hosting
 worker_class = "sync"
 worker_connections = 1000
 timeout = 30

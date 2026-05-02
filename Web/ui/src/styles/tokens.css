@@ -1,31 +1,59 @@
 :root {
-  /* Base palette */
-  --bg: #EDF2F0;
+  /* ── Brand fonts ── */
+  --font-body: 'Switzer', system-ui, sans-serif;
+  --font-heading: 'Sentient', Georgia, serif;
+
+  /* ── Primary palette ── */
+  --melon: #ACD99F;
+  --navy: #475C86;
+  --peach: #EBAC8D;
+  --candyfloss: #DEA6C0;
+
+  /* Hover / accent states */
+  --melon-ripe: #A3CF97;
+  --peach-ripe: #E09D7B;
+  --candyfloss-ripe: #D692B2;
+
+  /* ── Neutral palette ── */
+  --concrete: #F5F4F0;
+  --sandstone: #F2F0E9;
+  --linen: #E8E6DF;
+  --elephant: #71706B;
+  --coal: #262623;
+
+  /* ── Semantic aliases ── */
+  --bg: var(--concrete);
   --surface: #ffffff;
-  --text: #0f172a;
-  --muted: #475569;
-  --brand: #0f172a;
-  --link: #2463eb;
+  --text: var(--coal);
+  --text-secondary: var(--elephant);
+  --accent: var(--melon);
+  --accent-hover: var(--melon-ripe);
+  --accent-text: var(--navy);
 
-  /* Components */
-  --nav-link-size: 20px;
-  --brand-name-size: 22px;
+  /* ── Typography ── */
+  --kerning-body: -0.03em;
+  --kerning-heading: -0.04em;
+  --lh-body: 1.3;
+  --lh-heading: 1;
 
-  /* Insight gallery */
-  --tile-min: 0px;
+  /* ── Components ── */
+  --nav-link-size: clamp(13px, 1.2vw + 10px, 18px);
+  --brand-name-size: 26px;
+
+  /* ── Insight gallery ── */
   --tile-gap: 20px;
   --tile-ratio: 4 / 3;
   --insight-caption-size: 14px;
 
-  /* Shape & elevation */
+  /* ── Shape & elevation ── */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 6px 18px rgba(15, 23, 42, 0.10);
-  --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.14);
+  --shadow-sm: 0 1px 2px rgba(38, 38, 35, 0.05);
+  --shadow-md: 0 6px 18px rgba(38, 38, 35, 0.08);
+  --shadow-lg: 0 12px 28px rgba(38, 38, 35, 0.12);
 
-  /* Spacing scale */
+  /* ── Spacing scale ── */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -33,4 +61,17 @@
   --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
+
+  /* ── Channel tier colors ── */
+  --tier-educational: #3a7d44;
+  --tier-neutral: var(--elephant);
+  --tier-junk: #c4453c;
+
+  /* ── Status colors ── */
+  --severity-high: #c4453c;
+  --severity-high-bg: #fef2f2;
+  --severity-moderate: #b5841a;
+  --severity-moderate-bg: #fef9ee;
+  --severity-low: #3a7d44;
+  --severity-low-bg: #f0faf1;
 }

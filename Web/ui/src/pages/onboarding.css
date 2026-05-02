@@ -1,76 +1,352 @@
+/* ── Onboarding layout ── */
 .onboarding-layout {
   min-height: 100vh;
-  background: #EDF2F0;
-  color: #0f172a;
+  background: var(--bg);
+  color: var(--text);
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
 
 .onboarding-main {
-  max-width: 900px;
+  max-width: 640px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
 }
 
-.onboarding-header {
-  margin-bottom: 2rem;
+.onboarding-footer {
   text-align: center;
+  padding: 20px;
+  background: var(--bg);
+  font-size: 14px;
+  color: var(--text-secondary);
+  border-top: 1px solid rgba(38, 38, 35, 0.06);
 }
 
-.onboarding-title {
-  font-size: 36px;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.onboarding-description {
-  color: #64748b;
-  font-size: 18px;
-  line-height: 1.6;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.onboarding-video-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-
-.onboarding-video {
-  width: 100%;
-  max-width: 800px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  border: 1px solid rgba(0,0,0,0.08);
-}
-
+/* ── Callout banners ── */
 .onboarding-callout {
   padding: 16px 20px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   margin-bottom: 1.5rem;
   font-size: 14px;
   line-height: 1.4;
 }
 
 .onboarding-callout--error {
-  color: #dc2626;
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
+  color: var(--severity-high);
+  background-color: var(--severity-high-bg);
+  border: 1px solid var(--severity-high);
 }
 
 .onboarding-callout--success {
-  color: #16a34a;
-  background-color: #f0fdf4;
-  border: 1px solid #bbf7d0;
+  color: var(--severity-low);
+  background-color: var(--severity-low-bg);
+  border: 1px solid var(--severity-low);
 }
 
-.onboarding-footer {
+/* ── Progress indicator ── */
+.wizard-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  gap: 0;
+}
+
+.wizard-progress-step {
+  display: flex;
+  align-items: center;
+}
+
+.wizard-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--linen);
+  color: var(--elephant);
+  flex-shrink: 0;
+  transition: all 250ms ease;
+}
+
+.wizard-dot--active {
+  background: var(--navy);
+  color: var(--concrete);
+}
+
+.wizard-dot--done {
+  background: var(--melon);
+  color: var(--navy);
+}
+
+.wizard-line {
+  width: 48px;
+  height: 2px;
+  background: var(--linen);
+  transition: background 250ms ease;
+}
+
+.wizard-line--done {
+  background: var(--melon);
+}
+
+/* ── Wizard step content ── */
+.wizard-step {
+  animation: wizard-fade 350ms ease;
+}
+
+@keyframes wizard-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.wizard-step-title {
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 700;
+  letter-spacing: var(--kerning-heading);
+  line-height: var(--lh-heading);
+  color: var(--text);
+  margin: 0 0 0.75rem;
+}
+
+.wizard-step-desc {
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: var(--lh-body);
+  margin: 0 0 1.5rem;
+}
+
+/* ── Cards ── */
+.wizard-card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.wizard-card--subtle {
+  background: var(--sandstone);
+  box-shadow: none;
+}
+
+.wizard-card-title {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: var(--kerning-heading);
+  color: var(--navy);
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+.wizard-steps-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.wizard-steps-list li {
+  margin-bottom: 0.5rem;
+}
+
+.wizard-steps-list li:last-child {
+  margin-bottom: 0;
+}
+
+.wizard-reassurance {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: var(--lh-body);
+}
+
+.wizard-filepath {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--sandstone);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--navy);
+  word-break: break-all;
+}
+
+/* ── Buttons ── */
+.wizard-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: var(--kerning-body);
+  cursor: pointer;
+  transition: background-color 180ms ease, transform 120ms ease;
+  border: none;
+  text-decoration: none;
+}
+
+.wizard-btn:active {
+  transform: scale(0.98);
+}
+
+.wizard-btn--primary {
+  background: var(--navy);
+  color: var(--concrete);
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.wizard-btn--primary:hover {
+  background: #3d5078;
+}
+
+.wizard-btn--link {
   text-align: center;
-  padding: 20px;
-  background: #EDF2F0;
+}
+
+.wizard-btn--secondary {
+  background: var(--sandstone);
+  color: var(--text);
+  border: 1px solid var(--linen);
+}
+
+.wizard-btn--secondary:hover {
+  background: var(--linen);
+}
+
+.wizard-file-label {
+  cursor: pointer;
+}
+
+.wizard-nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.wizard-nav .wizard-btn--primary {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.wizard-nav .wizard-btn--secondary {
+  flex: 0 0 auto;
+}
+
+/* ── Help accordion ── */
+.wizard-help {
+  margin-bottom: 1.25rem;
+}
+
+.wizard-help summary {
+  cursor: pointer;
+  color: var(--navy);
+  font-weight: 600;
   font-size: 14px;
-  color: #64748b;
-  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  padding: 0.5rem 0;
+  list-style: none;
+}
+
+.wizard-help summary::before {
+  content: '+ ';
+}
+
+.wizard-help[open] summary::before {
+  content: '- ';
+}
+
+.wizard-help-content {
+  padding: 0.75rem 1rem;
+  background: var(--sandstone);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.wizard-help-content p {
+  margin: 0 0 0.75rem;
+}
+
+.wizard-help-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Drop zone ── */
+.wizard-dropzone {
+  border: 2px dashed var(--linen);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  margin-bottom: 1.25rem;
+  transition: border-color 200ms ease, background 200ms ease;
+  background: var(--surface);
+}
+
+.wizard-dropzone--active {
+  border-color: var(--navy);
+  background: var(--sandstone);
+}
+
+.wizard-dropzone--uploading {
+  border-style: solid;
+  border-color: var(--melon);
+  background: var(--sandstone);
+}
+
+.wizard-dropzone-icon {
+  margin-bottom: 0.75rem;
+}
+
+.wizard-dropzone-text {
+  color: var(--text-secondary);
+  font-size: 15px;
+  margin: 0 0 1rem;
+}
+
+/* ── Upload progress ── */
+.wizard-upload-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: var(--navy);
+  font-weight: 500;
+}
+
+.wizard-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--linen);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: wizard-spin 0.8s linear infinite;
+}
+
+@keyframes wizard-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .onboarding-main {
+    padding: 1.5rem 1rem;
+  }
+
+  .wizard-line {
+    width: 28px;
+  }
+
+  .wizard-step-title {
+    font-size: 22px;
+  }
 }

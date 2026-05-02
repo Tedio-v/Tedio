@@ -2,10 +2,9 @@
 // ABOUTME: Centralizes all environment variables and provides fallbacks for development
 
 const config = {
-  // API endpoint - always use relative /api path.
-  // In production, nginx proxies /api to the backend.
-  // In development, Vite proxies /api to localhost:5001.
-  API_ENDPOINT: '/api',
+  // API endpoint - in dev, Vite proxies /api to localhost:5001.
+  // In production (Vercel), use the full Render backend URL.
+  API_ENDPOINT: import.meta.env.VITE_API_URL || '/api',
   API_TIMEOUT: parseInt(import.meta.env.VITE_API_TIMEOUT) || 30000,
 
   // Environment info

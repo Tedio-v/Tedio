@@ -6,21 +6,21 @@
 .hero { display: grid; gap: var(--space-2); }
 .hero-image { position: relative; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); aspect-ratio: 16 / 9; width: 100%; max-height: 260px; }
 .hero-image img { width: 100%; height: 100%; display: block; object-fit: cover; }
-.hero-title { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0; font-family: 'Lexend', system-ui, sans-serif; font-weight: 700; font-size: clamp(22px, 3.2vw, 34px); color: #111; text-shadow: 0 1px 2px rgba(255,255,255,.6); text-align: center; }
-.hero-caption { font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); border-top: 2px solid rgba(0,0,0,.15); padding-top: var(--space-2); }
+.hero-title { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0; font-family: var(--font-heading); font-weight: 700; font-size: clamp(22px, 3.2vw, 34px); letter-spacing: var(--kerning-heading); color: var(--coal); text-shadow: 0 1px 2px rgba(255,255,255,.6); text-align: center; }
+.hero-caption { font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--text-secondary); border-top: 2px solid rgba(0,0,0,.15); padding-top: var(--space-2); }
 
 .detail-grid { display: grid; grid-template-columns: 1fr 320px; gap: var(--space-6); margin-top: var(--space-6); }
 
 .metric-card { background: #f3f4f6; border-radius: var(--radius-md); padding: var(--space-4); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.06); text-align: left; }
-.metric-link { color: var(--link); font-weight: 600; display: inline-block; margin-bottom: var(--space-2); cursor: pointer; }
-.metric-sub { color: var(--muted); margin: 0 0 var(--space-2); }
-.metric-foot { color: var(--muted); margin: 0; font-size: 14px; }
+.metric-link { color: var(--navy); font-weight: 600; display: inline-block; margin-bottom: var(--space-2); cursor: pointer; }
+.metric-sub { color: var(--text-secondary); margin: 0 0 var(--space-2); }
+.metric-foot { color: var(--text-secondary); margin: 0; font-size: 14px; }
 
 .explain { background: var(--surface); padding: var(--space-4); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.06); margin-top: var(--space-4); text-align: left; }
 .explain h3 { margin: var(--space-4) 0 var(--space-2); font-size: 16px; }
 .explain p { margin: 0 0 var(--space-2); color: var(--text); }
-.source { margin-top: var(--space-4); color: var(--muted); }
-.source a { color: var(--link); }
+.source { margin-top: var(--space-4); color: var(--text-secondary); }
+.source a { color: var(--navy); }
 
 .rating-card, .actions-card { background: var(--surface); border-radius: var(--radius-md); padding: var(--space-4); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.06); }
 .rating-card { position: sticky; top: 84px; }
