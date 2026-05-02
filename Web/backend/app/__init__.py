@@ -1,6 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_pymongo import PyMongo
-from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 
@@ -11,11 +10,15 @@ app = Flask(__name__)
 app.config['MONGO_URI'] = os.getenv('MONGO_URI', 'mongodb://localhost:27017/tedio')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-here')  # Change in production
 
-# Enable CORS - allow all origins
-CORS(app,
-     origins="*",
-     allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+# Manual CORS - adds headers to every response
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-Requested-With'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    if request.method == 'OPTIONS':
+        response.status_code = 200
+    return response
 
 # Initialize MongoDB
 mongo_uri = os.getenv('MONGO_URI', 'mongodb://localhost:27017/tedio')
