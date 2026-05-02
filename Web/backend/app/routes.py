@@ -39,21 +39,8 @@ if not openai_api_key:
 
 insight_service = InsightService(openai_api_key)
 
-# CORS origins - includes Render deployment and local dev
-CORS_ORIGINS = [
-    origin for origin in [
-        os.environ.get('FRONTEND_URL'),
-        'http://localhost:3000',
-        'http://127.0.0.1:3000',
-        'http://localhost:5173',
-        'http://127.0.0.1:5173',
-        'http://localhost:5175',
-        'http://127.0.0.1:5175',
-        'https://tedio.online',
-        'http://tedio.online',
-        'https://frontend-production-6257.up.railway.app',
-    ] if origin
-]
+# CORS origins - allow all
+CORS_ORIGINS = "*"
 
 # Robust token_required decorator
 def token_required(f):

@@ -11,13 +11,11 @@ app = Flask(__name__)
 app.config['MONGO_URI'] = os.getenv('MONGO_URI', 'mongodb://localhost:27017/tedio')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-here')  # Change in production
 
-# Enable CORS with more permissive configuration
-CORS(app, 
-     origins=["*"],  # Allow all origins for now
+# Enable CORS - allow all origins
+CORS(app,
+     origins="*",
      allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     supports_credentials=True,
-     expose_headers=["Content-Type", "Authorization"])
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
 # Initialize MongoDB
 mongo_uri = os.getenv('MONGO_URI', 'mongodb://localhost:27017/tedio')
