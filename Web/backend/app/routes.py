@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, make_response
 from .services.mongo_service import MongoService
 from .services.auth_service import AuthService
 from .services.insight_service import InsightService
-from flask_cors import cross_origin
+# CORS handled globally in __init__.py
 from bson import ObjectId
 from bson.errors import InvalidId
 from datetime import datetime
@@ -39,8 +39,6 @@ if not openai_api_key:
 
 insight_service = InsightService(openai_api_key)
 
-# CORS origins - allow all
-CORS_ORIGINS = "*"
 
 # Robust token_required decorator
 def token_required(f):
@@ -64,7 +62,7 @@ def token_required(f):
 
 # Authentication Routes
 @api.route('/api/auth/register', methods=['POST'])
-@cross_origin(origins=CORS_ORIGINS)
+
 def register():
     data = request.get_json()
     print(f"Registration data received: {data}")  # Debug log
@@ -98,7 +96,7 @@ def register():
     return jsonify({'message': 'User registered successfully'}), 201
 
 @api.route('/api/auth/login', methods=['POST'])
-@cross_origin(origins=CORS_ORIGINS)
+
 def login():
     data = request.get_json()
     email = data.get('email')
@@ -125,7 +123,7 @@ def login():
     return jsonify({'token': token, 'user': {'child_name': user.get('child_name'), 'email': user['email'], 'child_age': user.get('child_age'), 'first_login': first_login}}), 200
 
 @api.route('/api/auth/complete-onboarding', methods=['POST'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def complete_onboarding(current_user):
     """Mark user's onboarding as complete"""
@@ -145,7 +143,7 @@ def complete_onboarding(current_user):
 
 # YouTube History Routes with authentication
 @api.route('/api/youtube-history/status', methods=['GET'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def check_youtube_history(current_user):
     try:
@@ -155,7 +153,7 @@ def check_youtube_history(current_user):
         return jsonify({'error': str(e)}), 500
 
 @api.route('/api/youtube-history', methods=['POST', 'OPTIONS'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def upload_youtube_history(current_user):
     print('Headers:', dict(request.headers))  # Debug print
@@ -178,7 +176,7 @@ def upload_youtube_history(current_user):
         return jsonify({'error': str(e)}), 500
 
 @api.route('/api/youtube-history', methods=['GET'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def get_youtube_history(current_user):
     try:
@@ -255,7 +253,7 @@ def get_video(video_id):
 
 # Insight Routes
 @api.route('/api/insights', methods=['GET'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def get_insights(current_user):
     try:
@@ -395,7 +393,7 @@ def resolve_insight(insight_id):
         return jsonify({'error': str(e)}), 500
 
 @api.route('/api/insights/<insight_id>/rating', methods=['POST'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def submit_insight_rating(insight_id, current_user):
     if request.method == 'OPTIONS':
@@ -473,7 +471,7 @@ def submit_insight_rating(insight_id, current_user):
         return jsonify({'error': str(e)}), 500
 
 @api.route('/api/insights/global-ratings', methods=['GET'])
-@cross_origin(origins=CORS_ORIGINS)
+
 def get_global_insight_ratings():
     """Get global rating averages for all insight types"""
     try:
@@ -496,7 +494,7 @@ def get_global_insight_ratings():
         return jsonify({'error': str(e)}), 500
 
 @api.route('/api/insights/<insight_name>/global-rating', methods=['GET'])
-@cross_origin(origins=CORS_ORIGINS)
+
 def get_insight_global_rating(insight_name):
     """Get global rating average for a specific insight type"""
     try:
@@ -523,7 +521,7 @@ def get_insight_global_rating(insight_name):
         return jsonify({'error': str(e)}), 500
 
 @api.route('/api/insights/generate', methods=['POST', 'OPTIONS'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def generate_insights(current_user):
     if request.method == 'OPTIONS':
@@ -646,7 +644,7 @@ def generate_insights(current_user):
 
 # Settings Routes
 @api.route('/api/settings', methods=['GET'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def get_user_settings(current_user):
     """Get current user's settings"""
@@ -668,7 +666,7 @@ def get_user_settings(current_user):
         return jsonify({'error': str(e)}), 500
 
 @api.route('/api/settings', methods=['PUT'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def update_user_settings(current_user):
     """Update current user's settings"""
@@ -718,7 +716,7 @@ def update_user_settings(current_user):
 
 # Quick Actions Routes
 @api.route('/api/quick-actions/complete', methods=['POST'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def complete_quick_action(current_user):
     """Mark a quick action as completed for the current user"""
@@ -756,7 +754,7 @@ def complete_quick_action(current_user):
         return jsonify({'error': str(e)}), 500
 
 @api.route('/api/quick-actions/uncomplete', methods=['POST'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def uncomplete_quick_action(current_user):
     """Unmark a quick action as completed for the current user"""
@@ -785,7 +783,7 @@ def uncomplete_quick_action(current_user):
         return jsonify({'error': str(e)}), 500
 
 @api.route('/api/quick-actions/completed', methods=['GET'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def get_completed_actions(current_user):
     """Get list of completed quick actions for the current user"""
@@ -808,7 +806,7 @@ def get_completed_actions(current_user):
 # ── Channel Quality Routes ──
 
 @api.route('/api/channel-quality', methods=['GET'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def get_channel_quality(current_user):
     """Return the user's channel quality breakdown."""
@@ -853,7 +851,7 @@ def get_channel_quality(current_user):
 
 
 @api.route('/api/channel-quality/<channel_name>/override', methods=['PUT'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def override_channel_quality(channel_name, current_user):
     """Parent overrides a channel's tier classification."""
@@ -884,7 +882,7 @@ def override_channel_quality(channel_name, current_user):
 
 
 @api.route('/api/cheat-sheet', methods=['GET'])
-@cross_origin(origins=CORS_ORIGINS)
+
 @token_required
 def get_cheat_sheet(current_user):
     """Return structured data for the printable caregiver cheat sheet."""
